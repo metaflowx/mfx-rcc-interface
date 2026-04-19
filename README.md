@@ -1,4 +1,4 @@
-# Recore-chain 1.11
+# Recore-chain 1.12
 
 ## Getting Started
 
