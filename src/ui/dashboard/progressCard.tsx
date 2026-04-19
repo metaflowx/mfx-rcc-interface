@@ -350,9 +350,9 @@ const ProgressCard: React.FC = () => {
                 borderRadius: '16px',
                 background: 'transparent',
                 color: 'white',
-                
+
                 border: '1px solid #557804',
-               
+
             }}
         >
             {/* Progress Bar */}
@@ -571,7 +571,7 @@ const ProgressCard: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     padding: '0.5rem 1rem',
-                    border:'1px solid #557804'
+                    border: '1px solid #557804'
                 }}>
                     <TextField
                         fullWidth
@@ -620,7 +620,7 @@ const ProgressCard: React.FC = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '10px',
-                        color:'#000'
+                        color: '#000'
                     }}>
                         <Image
                             src={
@@ -643,7 +643,7 @@ const ProgressCard: React.FC = () => {
                 <Box sx={{
                     flex: 'auto',
                     backgroundColor: '#fff',
-                    border:'1px solid #557804',
+                    border: '1px solid #557804',
                     borderRadius: '12px',
                     display: 'flex',
                     alignItems: 'center',
@@ -692,7 +692,7 @@ const ProgressCard: React.FC = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '10px',
-                        color:'#000'
+                        color: '#000'
                     }}>
                         <Image src={coin} alt="RCC" width={30} height={30} />
                         RCC
@@ -831,8 +831,8 @@ const ProgressCard: React.FC = () => {
                             amount === "" ||
                             Number(amount) <= 0 ||
                             (selectedToken?.tokenname === "BNB"
-                                ? Number(Balance?.formatted) < Number(amount) ||
-                                Number(Balance?.formatted) === 0
+                                ? Number(formatEther(Balance?.value ?? BigInt(0))) < Number(amount) ||
+                                Number(formatEther(Balance?.value ?? BigInt(0))) === 0
                                 : Number(formatEther(BigInt(resultOfTokenBalance ?? 0))) <
                                 Number(amount))
                         }
@@ -875,8 +875,8 @@ const ProgressCard: React.FC = () => {
                                         ? `Min. Buy is $${minBuy}`
                                         : (
                                             selectedToken?.tokenname === "BNB"
-                                                ? Number(Balance?.formatted) < Number(amount) ||
-                                                Number(Balance?.formatted) === 0
+                                                ? Number(formatEther(Balance?.value ?? BigInt(0))) < Number(amount) ||
+                                                Number(formatEther(Balance?.value ?? BigInt(0))) === 0
                                                 : Number(
                                                     formatEther(BigInt(resultOfTokenBalance ?? 0))
                                                 ) < Number(amount)
@@ -891,15 +891,15 @@ const ProgressCard: React.FC = () => {
                         fullWidth
                         variant="contained"
                         sx={{
-                            backgroundColor:'#557804',
+                            backgroundColor: '#557804',
                             color: '#fff',
                             fontWeight: "bold",
                             borderRadius: '5rem',
-                            boxShadow:'none',
+                            boxShadow: 'none',
                             p: 1.2,
                             transition: '0.3s',
-                            '&:hover':{
-                                backgroundColor:'#557804', 
+                            '&:hover': {
+                                backgroundColor: '#557804',
                             }
                         }}
                         onClick={async () => open()}
