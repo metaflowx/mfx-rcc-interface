@@ -19,7 +19,7 @@ const Statscard = ({ cardData }: StatscardProps) => {
         <Box>
             <Grid container spacing={2}>
                 {cardData.map((item) => (
-                    <Grid key={item.id} item lg={3} md={3} sm={12} xs={12}>
+                    <Grid key={item.id} item lg={4} md={4} sm={12} xs={12}>
                         <Box data-aos="flip-left" sx={{
                             border: '1px solid #557804',
                             padding: '0.5rem',

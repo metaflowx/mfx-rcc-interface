@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Heading from '@/theme/components/heading';
 import Image from 'next/image';
- 
+
 import { useAccount, useBlockNumber, useReadContracts } from 'wagmi';
 import { useAppKitNetwork } from '@reown/appkit/react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -37,10 +37,12 @@ import shortenString from '@/lib/shortenString';
 export default function ReferralCard({ type }: { type?: string }) {
   const { address } = useAccount();
   const { chainId } = useAppKitNetwork();
-  const { data: blockNumber } = useBlockNumber({ watch: {
-    enabled: true,
-    pollingInterval: 5_000,
-  } });
+  const { data: blockNumber } = useBlockNumber({
+    watch: {
+      enabled: true,
+      pollingInterval: 5_000,
+    }
+  });
   const queryClient = useQueryClient();
   const [url, setUrl] = useState('');
   const [url1, setUrl1] = useState('');
@@ -103,20 +105,20 @@ export default function ReferralCard({ type }: { type?: string }) {
         } RCC`,
       logo: EARNINGS,
     },
-    {
-      title: "YOUR REFERRALS CLAIMED",
-      value: `${result?.data?.[0]?.result
-        ? convertToAbbreviated(
-          Number(formatEther(BigInt(result?.data[0]?.result?.[1])))
-        )
-        : 0
-        } RCC`,
-      logo: CLAIMED,
-    },
+    // {
+    //   title: "YOUR REFERRALS CLAIMED",
+    //   value: `${result?.data?.[0]?.result
+    //     ? convertToAbbreviated(
+    //       Number(formatEther(BigInt(result?.data[0]?.result?.[1])))
+    //     )
+    //     : 0
+    //     } RCC`,
+    //   logo: CLAIMED,
+    // },
   ];
 
   useEffect(() => {
-    if(!blockNumber) return;
+    if (!blockNumber) return;
     queryClient.invalidateQueries({
       queryKey: result.queryKey,
     });
@@ -146,7 +148,7 @@ export default function ReferralCard({ type }: { type?: string }) {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            border:'1px solid #557804'
+                            border: '1px solid #557804'
                           }}
                         >
                           <Image
@@ -179,8 +181,8 @@ export default function ReferralCard({ type }: { type?: string }) {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   background: "linear-gradient(85deg, #fff, #fff, #fff)",
-                  borderRadius:'12px',
-                  border:'1px solid #557804'
+                  borderRadius: '12px',
+                  border: '1px solid #557804'
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>

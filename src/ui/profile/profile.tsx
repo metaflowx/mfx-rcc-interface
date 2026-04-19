@@ -23,7 +23,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Heading from '@/theme/components/heading';
 import Image from 'next/image';
- 
+
 import ShareModal from '../dashboard/shareModal';
 import profile from '../../icons/recorechain/profile.svg'
 import coinwithbg from '../../icons/recorechain/coinwithbg.svg'
@@ -125,16 +125,16 @@ export default function Profile({ type }: { type?: string }) {
         } RCC`,
       logo: EARNINGS,
     },
-    {
-      title: "YOUR REFERRALS CLAIMED",
-      value: `${result?.data?.[0]?.result
-        ? convertToAbbreviated(
-          Number(formatEther(BigInt(result?.data[0]?.result?.[1])))
-        )
-        : 0
-        } RCC`,
-      logo: CLAIMED,
-    },
+    // {
+    //   title: "YOUR REFERRALS CLAIMED",
+    //   value: `${result?.data?.[0]?.result
+    //     ? convertToAbbreviated(
+    //       Number(formatEther(BigInt(result?.data[0]?.result?.[1])))
+    //     )
+    //     : 0
+    //     } RCC`,
+    //   logo: CLAIMED,
+    // },
   ];
 
 
@@ -143,7 +143,7 @@ export default function Profile({ type }: { type?: string }) {
     <Box >
       {/* ✅ Toast Container */}
 
-      <Card sx={{ p: 2, border: '1px solid #557804', backgroundColor: 'transparent', borderRadius: '16px', boxShadow:'none' }}>
+      <Card sx={{ p: 2, border: '1px solid #557804', backgroundColor: 'transparent', borderRadius: '16px', boxShadow: 'none' }}>
         <Grid container spacing={4}>
           <Grid item xs={12} md={type === 'image' ? 6 : 12}>
 
@@ -182,7 +182,7 @@ export default function Profile({ type }: { type?: string }) {
                   </Typography>
                 </Box>
 
-                <Stack spacing={3} sx={{mb:3}}>
+                <Stack spacing={3} sx={{ mb: 3 }}>
                   {
                     dataList1.map((item, index) => {
                       return (
@@ -199,7 +199,7 @@ export default function Profile({ type }: { type?: string }) {
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                border:'1px solid #557804'
+                                border: '1px solid #557804'
                               }}
                             >
                               <Image
@@ -238,8 +238,8 @@ export default function Profile({ type }: { type?: string }) {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   background: "linear-gradient(85deg, #fff, #fff, #fff)",
-                  border:'1px solid #557804',
-                  borderRadius:'12px'
+                  border: '1px solid #557804',
+                  borderRadius: '12px'
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>

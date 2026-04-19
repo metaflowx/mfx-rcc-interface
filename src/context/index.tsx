@@ -1,6 +1,6 @@
 'use client'
 
- 
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createAppKit } from '@reown/appkit/react'
 import { bsc, bscTestnet } from '@reown/appkit/networks'
@@ -27,19 +27,20 @@ const metadata = {
 const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
-  networks: [bsc,bscTestnet],
+  networks: [bsc, bscTestnet],
   defaultNetwork: bsc,
   metadata: metadata,
- features: {
+  themeMode: 'light',
+  features: {
     analytics: true, // Optional - defaults to your Cloud configuration
-    swaps:false,
-    socials:false,
-    email:false,
-    onramp:false,
-    
+    swaps: false,
+    socials: false,
+    email: false,
+    onramp: false,
+
   },
-  
-   
+
+
 })
 
 function ContextProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {

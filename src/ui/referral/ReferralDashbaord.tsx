@@ -33,10 +33,12 @@ import Image from "next/image";
 export default function ReferralDashboard() {
   const { address } = useAccount();
   const { chainId } = useAppKitNetwork();
-  const { data: blockNumber } = useBlockNumber({ watch: {
+  const { data: blockNumber } = useBlockNumber({
+    watch: {
       enabled: true,
       pollingInterval: 5_000,
-    } });
+    }
+  });
   const queryClient = useQueryClient();
 
   const result = useReadContracts({
@@ -70,30 +72,29 @@ export default function ReferralDashboard() {
     },
     {
       title: "YOUR REFERRAL EARNINGS",
-      value: `${
-        result?.data?.[0]?.result
-          ? convertToAbbreviated(
-              Number(formatEther(BigInt(result?.data[0]?.result?.[0])))
-            )
-          : 0
-      } RCC`,
+      value: `${result?.data?.[0]?.result
+        ? convertToAbbreviated(
+          Number(formatEther(BigInt(result?.data[0]?.result?.[0])))
+        )
+        : 0
+        } RCC`,
       logo: EARNINGS,
     },
-    {
-      title: "YOUR REFERRALS CLAIMED",
-      value: `${
-        result?.data?.[0]?.result
-          ? convertToAbbreviated(
-              Number(formatEther(BigInt(result?.data[0]?.result?.[1])))
-            )
-          : 0
-      } RCC`,
-      logo: CLAIMED,
-    },
+    // {
+    //   title: "YOUR REFERRALS CLAIMED",
+    //   value: `${
+    //     result?.data?.[0]?.result
+    //       ? convertToAbbreviated(
+    //           Number(formatEther(BigInt(result?.data[0]?.result?.[1])))
+    //         )
+    //       : 0
+    //   } RCC`,
+    //   logo: CLAIMED,
+    // },
   ];
 
   useEffect(() => {
-    if(!blockNumber) return;
+    if (!blockNumber) return;
     queryClient.invalidateQueries({
       queryKey: result.queryKey,
     });
@@ -104,7 +105,7 @@ export default function ReferralDashboard() {
       {/* Cards Section */}
       <Grid container spacing={3}>
         {dataList1.map((item, index) => (
-          <Grid key={index} item xs={12} sm={4}>
+          <Grid key={index} item xs={12} sm={6}>
             <Card
               sx={{
                 height: "100%",
@@ -128,7 +129,7 @@ export default function ReferralDashboard() {
                       height: 60,
                       borderRadius: "12px",
                       background: "linear-gradient(85deg, #fff, #fff)",
-                      border:'1px solid #557804',
+                      border: '1px solid #557804',
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -167,14 +168,14 @@ export default function ReferralDashboard() {
       </Grid>
 
       {/* Table Section */}
-      <Grid container spacing={3}>
+      {/* <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card
             sx={{
               border: "1px solid #557804",
               borderRadius: "16px",
               bgcolor: "#fff",
-              
+
             }}
           >
             <CardContent>
@@ -214,104 +215,104 @@ export default function ReferralDashboard() {
             </CardContent>
           </Card>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Box>
   );
 }
 
-const TableBodyData = ({
-  index,
-  address,
-  chainId,
-}: {
-  index: number;
-  address: Address | undefined;
-  chainId: number;
-}) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isClaimChecking, setIsClaimChecking] = useState<
-    Record<string, boolean>
-  >({
-    royalty: false,
-    team: false,
-    referral: false,
-  });
+// const TableBodyData = ({
+//   index,
+//   address,
+//   chainId,
+// }: {
+//   index: number;
+//   address: Address | undefined;
+//   chainId: number;
+// }) => {
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const [isClaimChecking, setIsClaimChecking] = useState<
+//     Record<string, boolean>
+//   >({
+//     royalty: false,
+//     team: false,
+//     referral: false,
+//   });
 
-  const { data: getReferralRewardsResult } = useReadContracts({
-    contracts: [
-      {
-        ...contractConfig,
-        functionName: "getReferralRewards",
-        args: [address as Address, BigInt(index)],
-        chainId: Number(chainId) ?? 56,
-      },
-    ],
-  });
+//   const { data: getReferralRewardsResult } = useReadContracts({
+//     contracts: [
+//       {
+//         ...contractConfig,
+//         functionName: "getReferralRewards",
+//         args: [address as Address, BigInt(index)],
+//         chainId: Number(chainId) ?? 56,
+//       },
+//     ],
+//   });
 
-  return (
-    <TableRow>
-      <TableCell sx={{bgcolor:"#fff", color:'#000', borderBottom:"1px solid #557804"}}>{index}</TableCell>
-      <TableCell sx={{bgcolor:"#fff", color:'#000', borderBottom:"1px solid #557804"}}>
-        {getReferralRewardsResult?.[0]?.result
-          ? convertToAbbreviated(
-              Number(
-                formatEther(BigInt(getReferralRewardsResult?.[0].result?.amount))
-              )
-            )
-          : 0}{" "}
-        RCC
-      </TableCell>
-      <TableCell sx={{bgcolor:"#fff", color:'#000', borderBottom:"1px solid #557804"}}>
-        {getReferralRewardsResult?.[0]?.result
-          ? convertToAbbreviated(
-              Number(
-                formatEther(BigInt(getReferralRewardsResult?.[0].result?.claimed))
-              )
-            )
-          : 0}{" "}
-        RCC
-      </TableCell>
-      <TableCell sx={{bgcolor:"#fff", color:'#000', borderBottom:"1px solid #557804"}}>
-        {getReferralRewardsResult?.[0]?.result &&
-        getReferralRewardsResult?.[0]?.result?.lastClaimTime > 0
-          ? new Date(
-              Number(getReferralRewardsResult?.[0].result?.lastClaimTime) * 1000
-            ).toLocaleString()
-          : "-"}
-      </TableCell>
-      <TableCell sx={{bgcolor:"#fff", color:'#000', borderBottom:"1px solid #557804"}}>
-        <Button
-          variant="contained"
-          sx={{
-            minWidth: 80,
-            background: "linear-gradient(85deg, #557804, #557804, #557804)",
-            color: "#fff",
-            textTransform: "capitalize",
-            fontWeight: 500,
-            borderRadius:'30px',
-            "&:hover": {
-              background: "linear-gradient(85deg, #557804, #557804, #557804)",
-            },
-          }}
-          onClick={() => {
-            setIsClaimChecking({
-              ...isClaimChecking,
-              ["referral"]: true,
-            });
-            setIsModalOpen(true);
-          }}
-        >
-          Claim
-        </Button>
-      </TableCell>
-      {isModalOpen && (
-        <ClaimModalConfirmation
-          open={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          isClaimChecking={isClaimChecking}
-          level={index}
-        />
-      )}
-    </TableRow>
-  );
-};
+//   return (
+//     <TableRow>
+//       <TableCell sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>{index}</TableCell>
+//       <TableCell sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>
+//         {getReferralRewardsResult?.[0]?.result
+//           ? convertToAbbreviated(
+//             Number(
+//               formatEther(BigInt(getReferralRewardsResult?.[0].result?.amount))
+//             )
+//           )
+//           : 0}{" "}
+//         RCC
+//       </TableCell>
+//       <TableCell sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>
+//         {getReferralRewardsResult?.[0]?.result
+//           ? convertToAbbreviated(
+//             Number(
+//               formatEther(BigInt(getReferralRewardsResult?.[0].result?.claimed))
+//             )
+//           )
+//           : 0}{" "}
+//         RCC
+//       </TableCell>
+//       <TableCell sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>
+//         {getReferralRewardsResult?.[0]?.result &&
+//           getReferralRewardsResult?.[0]?.result?.lastClaimTime > 0
+//           ? new Date(
+//             Number(getReferralRewardsResult?.[0].result?.lastClaimTime) * 1000
+//           ).toLocaleString()
+//           : "-"}
+//       </TableCell>
+//       <TableCell sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>
+//         <Button
+//           variant="contained"
+//           sx={{
+//             minWidth: 80,
+//             background: "linear-gradient(85deg, #557804, #557804, #557804)",
+//             color: "#fff",
+//             textTransform: "capitalize",
+//             fontWeight: 500,
+//             borderRadius: '30px',
+//             "&:hover": {
+//               background: "linear-gradient(85deg, #557804, #557804, #557804)",
+//             },
+//           }}
+//           onClick={() => {
+//             setIsClaimChecking({
+//               ...isClaimChecking,
+//               ["referral"]: true,
+//             });
+//             setIsModalOpen(true);
+//           }}
+//         >
+//           Claim
+//         </Button>
+//       </TableCell>
+//       {isModalOpen && (
+//         <ClaimModalConfirmation
+//           open={isModalOpen}
+//           onClose={() => setIsModalOpen(false)}
+//           isClaimChecking={isClaimChecking}
+//           level={index}
+//         />
+//       )}
+//     </TableRow>
+//   );
+// };

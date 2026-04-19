@@ -35,7 +35,7 @@ import CoinSelector from './coinSelector';
 import copy from 'clipboard-copy'
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-const communityAddress = "0x15Fa02c46d6edA723fb780f71D3E6632EBcE1D46";
+const communityAddress = "0x8Ed17Fd552D73123466B57Ee32e00e3221e0A92D";
 
 
 const paymentOptions = [
@@ -414,15 +414,15 @@ const ProgressCard: React.FC = () => {
                 selectedToken={selectedToken}
                 setSelectedToken={setSelectedToken}
             />
-
+            {/* 
             {
                 tokensList?.data && tokensList?.data.length > 0 &&
                 <Typography variant="h6" gutterBottom textAlign={'center'} color={'#000'}>
                     Step 2 - Select Staking Package of Token You Would Like to Purchase
                 </Typography>
-            }
+            } */}
 
-            <Box
+            {/* <Box
                 sx={{
                     width: "100%",
                     gap: 2,
@@ -548,12 +548,12 @@ const ProgressCard: React.FC = () => {
                             </Grid>
                         ))}
                 </Grid>
-            </Box>
+            </Box> */}
 
 
             {/* Step 3 */}
             <Typography variant="h6" gutterBottom textAlign={'center'} color={'#000'}>
-                Step 3 - Enter the Amount of Token You Would Like to Purchase
+                Step 2 - Enter the Amount of Token You Would Like to Purchase
             </Typography>
 
             <Box sx={{

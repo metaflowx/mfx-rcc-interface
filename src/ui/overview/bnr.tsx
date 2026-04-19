@@ -4,7 +4,7 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import Image from "next/image";
 import Link from "next/link";
- 
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useMemo } from "react";
@@ -158,7 +158,7 @@ const Bnr = () => {
                                     textAlign: 'center'
                                 }
                             }}>
-                            
+
                         </Grid>
 
 
@@ -180,7 +180,7 @@ const Bnr = () => {
 
                             }}>
                                 <Box className={'or'} sx={{
-                                    border:'1px solid #557804',
+                                    border: '1px solid #557804',
                                     backgroundColor: '#ffffffe6',
                                     borderRadius: '15px',
                                     padding: '1.5rem 0rem',
@@ -203,7 +203,7 @@ const Bnr = () => {
                                         </Typography>
                                         <Typography data-aos="fade-left" variant="h4" sx={{
                                             color: '#000',
-                                            
+
                                             '@media(max-width : 600px)': {
                                                 fontSize: '24px'
                                             }
@@ -244,9 +244,9 @@ const Bnr = () => {
                                         </Box>
 
                                         <Typography variant="h6" sx={{
-                                             
+
                                             display: "inline",
-                                             color:'#000'
+                                            color: '#000'
                                         }}>
                                             TOTAL USD RAISED: $ {convertToAbbreviated(Number(calculatedToken?.totalSale ?? 0) + 10000) ?? 0}
                                         </Typography>
@@ -262,7 +262,7 @@ const Bnr = () => {
                                                 borderRadius: '5rem',
                                                 width: '100%',
                                                 marginTop: '2rem',
-                                                '&:hover':{
+                                                '&:hover': {
                                                     background: "#557804",
                                                 }
 
@@ -280,7 +280,7 @@ const Bnr = () => {
 
 
                 <Box sx={{
-                    marginTop:'5rem'
+                    marginTop: '5rem'
                 }} >
                     <Grid container spacing={2} sx={{
                         alignItems: 'center',
@@ -288,7 +288,7 @@ const Bnr = () => {
                             flexDirection: 'column-reverse'
                         }
                     }}>
-                         
+
 
                         <Grid item lg={12} md={12} sm={12} xs={12} sx={{
                             '@media(max-width : 900px)': {
@@ -300,81 +300,81 @@ const Bnr = () => {
                                 padding: '1px',
                                 borderRadius: '16px',
                                 '@media(max-width : 900px)': {
-                                    
+
                                     padding: '0px'
                                 }
 
                             }}>
-                                
-                                    <Box sx={{
-                                        textAlign: 'center',
-                                    }}>
-                                        <Typography data-aos="fade-right" variant="h4"
-                                            sx={{
-                                                fontSize: '40px',
-                                                color: '#000',
-                                                textAlign:'center',
-                                                fontWeight: 'bold',
-                                                fontFamily: 'Museo 700 !important',
-                                                '@media(max-width : 600px)': {
-                                                    fontSize: '24px'
-                                                }
-                                            }}
-                                        >
-                                            ReCore Chain — Decentralized <Box component={'br'} sx={{'@media(max-width 900px)':{display:'none'}}}/> Green Energy Blockchain
-                                        </Typography>
-                                        <Typography data-aos="zoom-in" color={'#000'}
-                                                sx={{
-                                                    fontSize: '24px',
-                                                    display: 'inline-block',
-                                                    borderRadius: '30px',
-                                                }}>Powering the future with Wind Turbines, EV Charging Infrastructure, <Box component={'br'} sx={{'@media(max-width 900px)':{display:'none'}}}/> and Blockchain Staking</Typography>
-                                    </Box>
 
-                                    <Box sx={{
-                                        display:'flex',
-                                        justifyContent:'center',
-                                        gap:'1rem',
-                                        marginTop:'1rem'
-                                    }}>
-                                        <Link  href={""}>
-                                       <Button sx={{
-                                        backgroundColor:'#557804',
-                                        border:'1px solid transparent',
-                                        color:'#fff',
-                                        borderRadius:'5rem',
-                                        padding:'0.5rem 1.5rem',
-                                        textTransform:'capitalize',
-                                        '&:hover':{
-                                            backgroundColor:'transparent',
-                                            border:'1px solid #557804',
-                                            color:'#557804'
-                                        }
-                                       }}>
-                                       Join ICO
-                                       </Button>
-                                        </Link>
+                                <Box sx={{
+                                    textAlign: 'center',
+                                }}>
+                                    <Typography data-aos="fade-right" variant="h4"
+                                        sx={{
+                                            fontSize: '40px',
+                                            color: '#000',
+                                            textAlign: 'center',
+                                            fontWeight: 'bold',
+                                            fontFamily: 'Museo 700 !important',
+                                            '@media(max-width : 600px)': {
+                                                fontSize: '24px'
+                                            }
+                                        }}
+                                    >
+                                        ReCore Chain — Decentralized <Box component={'br'} sx={{ '@media(max-width 900px)': { display: 'none' } }} /> Green Energy Blockchain
+                                    </Typography>
+                                    <Typography data-aos="zoom-in" color={'#000'}
+                                        sx={{
+                                            fontSize: '24px',
+                                            display: 'inline-block',
+                                            borderRadius: '30px',
+                                        }}>Powering the future with Wind Turbines, EV Charging Infrastructure, <Box component={'br'} sx={{ '@media(max-width 900px)': { display: 'none' } }} /> and Blockchain Staking</Typography>
+                                </Box>
 
-                                        <Link  href={""}>
-                                       <Button sx={{
-                                        backgroundColor:'transparent',
-                                        border:'1px solid #557804',
-                                        color:'#557804',
-                                        borderRadius:'5rem',
-                                        padding:'0.5rem 1.5rem',
-                                        textTransform:'capitalize',
-                                        '&:hover':{
-                                            backgroundColor:'#557804',
-                                            color:'#fff'
-                                        }
-                                       }}>
-                                      Start Staking
-                                       </Button>
-                                        </Link>
-                                    </Box>
-                                     
- 
-                               
+                                <Box sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    gap: '1rem',
+                                    marginTop: '1rem'
+                                }}>
+                                    <Link href={"/dashboard"}>
+                                        <Button sx={{
+                                            backgroundColor: '#557804',
+                                            border: '1px solid transparent',
+                                            color: '#fff',
+                                            borderRadius: '5rem',
+                                            padding: '0.5rem 1.5rem',
+                                            textTransform: 'capitalize',
+                                            '&:hover': {
+                                                backgroundColor: 'transparent',
+                                                border: '1px solid #557804',
+                                                color: '#557804'
+                                            }
+                                        }}>
+                                            Join ICO
+                                        </Button>
+                                    </Link>
+
+                                    <Link href={"/dashboard/staking"}>
+                                        <Button sx={{
+                                            backgroundColor: 'transparent',
+                                            border: '1px solid #557804',
+                                            color: '#557804',
+                                            borderRadius: '5rem',
+                                            padding: '0.5rem 1.5rem',
+                                            textTransform: 'capitalize',
+                                            '&:hover': {
+                                                backgroundColor: '#557804',
+                                                color: '#fff'
+                                            }
+                                        }}>
+                                            Start Staking
+                                        </Button>
+                                    </Link>
+                                </Box>
+
+
+
                             </Box>
                         </Grid>
 

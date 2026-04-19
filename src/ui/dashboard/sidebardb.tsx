@@ -61,7 +61,7 @@ const SidebarDB = () => {
     <Box sx={{ p: 2 }}>
       {/* Logo */}
       <Box >
-        <Link href="/" passHref>
+        <Link href="/dashboard" passHref>
           <Box component="a">
             <Image src={logo} alt="Logo" width={180} height={100} />
           </Box>

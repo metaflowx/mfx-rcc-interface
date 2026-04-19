@@ -33,10 +33,12 @@ export default function PurchaseHistory() {
   const { address } = useAccount();
   const { chainId } = useAppKitNetwork();
   const queryClient = useQueryClient();
-  const { data: blockNumber } = useBlockNumber({ watch: {
-     enabled: true,
-     pollingInterval: 5_000,
-   } });
+  const { data: blockNumber } = useBlockNumber({
+    watch: {
+      enabled: true,
+      pollingInterval: 5_000,
+    }
+  });
   const result = useReadContracts({
     contracts: [
       {
@@ -48,7 +50,7 @@ export default function PurchaseHistory() {
     ],
   });
   useEffect(() => {
-    if(!blockNumber) return;
+    if (!blockNumber) return;
     queryClient.invalidateQueries({
       queryKey: result.queryKey,
     });
@@ -88,7 +90,7 @@ export default function PurchaseHistory() {
   return (
     <Box mt={3}>
       <Box display="flex" justifyContent="space-between" mb={2}>
-        <Heading heading="Contributors History" variantt="h5" />
+        <Heading  heading="Contributors History" variantt="h5" />
       </Box>
 
       <Box
@@ -131,7 +133,7 @@ export default function PurchaseHistory() {
                   [...Array(5)].map((_, index) => (
                     <TableRow key={index} className="border-b-0">
                       {[...Array(5)].map((_, i) => (
-                        <TableCell key={i} className="text-black" sx={{bgcolor:'#fff'}}>
+                        <TableCell key={i} className="text-black" sx={{ bgcolor: '#fff' }}>
                           <Skeleton sx={{ bgcolor: "#fff" }} variant="text" width={100} height={20} />
                         </TableCell>
                       ))}
@@ -175,7 +177,7 @@ export default function PurchaseHistory() {
                     ))
                   ) : (
                     <TableRow>
-                      <TableCell colSpan={5} align="center" sx={{ color: '#000', bgcolor:'#fff' }}>
+                      <TableCell colSpan={5} align="center" sx={{ color: '#000', bgcolor: '#fff' }}>
                         No Data Found
                       </TableCell>
                     </TableRow>

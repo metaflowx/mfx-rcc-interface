@@ -122,10 +122,10 @@ export default function Stake() {
                   border: "1px solid transparent",
                   transition: "border 0.3s",
                   borderColor: "#55780457",
-                  boxShadow:'none',
+                  boxShadow: 'none',
                   "&:hover": {
                     borderColor: "#557804",
-                    backgroundColor:'#EBEEE1'
+                    backgroundColor: '#EBEEE1'
                   },
                 }}
               >
@@ -160,10 +160,19 @@ export default function Stake() {
                   gap={2}
                 >
                   <Typography variant="h6" fontWeight={400} color="#000">
-                    {(Number(item.returnInPercent) / 1e2)/2}% APR
+                    {/* {(Number(item.returnInPercent) / 1e2) / 2}% APR */}
+                    {
+                      index === 0 ? '4.5%~6% Monthly' :
+                        index === 1 ? '4.5%~6% Monthly' :
+                          '5%~6.5% Monthly'
+
+                    }
                   </Typography>
-                  <Heading heading={`Min. Stake $${item?.minStaked ? formatEther(item?.minStaked) : "0"}`} variantt={"h5"} />
-                  <Heading heading={`${item.lockPeriod} Months Lockup`} variantt={"h6"} />
+                  <Heading heading={`Min. Stake $100`} variantt={"h5"} />
+                  <Heading heading={`${index === 0 ? 12 :
+                    index === 1 ? 24 :
+                      36
+                    } Months Lockup`} variantt={"h6"} />
                   <Button
                     fullWidth
                     variant="contained"
@@ -173,8 +182,8 @@ export default function Stake() {
                       borderRadius: '30px',
                       padding: '8px 20px',
                       color: '#000',
-                      boxShadow:'none',
-                      border:'1px solid #557804'
+                      boxShadow: 'none',
+                      border: '1px solid #557804'
                     }}
                   >
                     Stake

@@ -46,6 +46,17 @@ const Earning = () => {
         {
             id: 101,
             title: `${convertToAbbreviated(Number(
+                Number(formatEther(BigInt(teamBusiness?.data ?? 0))) /
+                tokenPriceBig
+            ))}`,
+            text: "Your Wallet Balance",
+            data: `${convertToAbbreviated(Number(
+                Number(formatEther(BigInt(teamBusiness?.data ?? 0)))
+            ))}`
+        },
+        {
+            id: 102,
+            title: `${convertToAbbreviated(Number(
                 Number(formatEther(BigInt(dailyReward?.data?.claimedRewards ?? 0)))
             ))}`,
             text: "Total Earnings",
@@ -58,7 +69,7 @@ const Earning = () => {
                 } `
         },
         {
-            id: 102,
+            id: 103,
             title: `${convertToAbbreviated(Number(
                 Number(formatEther(BigInt(dailyReward?.data?.volume ?? 0)))
             ))}`,
@@ -68,28 +79,17 @@ const Earning = () => {
                 : "0"
                 } `
         },
-        {
-            id: 103,
-            title: `${convertToAbbreviated(Number(
-                Number(formatEther(BigInt(teamBusiness?.data ?? 0)))/
-                tokenPriceBig
-            ))}`,
-            text: "Total Team Business",
-            data: `${convertToAbbreviated(Number(
-                Number(formatEther(BigInt(teamBusiness?.data ?? 0)))
-            ))}`
-        },
-        {
-            id: 104,
-            title: `${convertToAbbreviated(Number(
-                Number(formatEther(BigInt(yourReward?.data ?? 0)))/
-                tokenPriceBig
-            ))}`,
-            text: "Your Reward",
-            data: `${convertToAbbreviated(Number(
-                Number(formatEther(BigInt(yourReward?.data ?? 0)))
-            ))}`
-        },
+        // {
+        //     id: 104,
+        //     title: `${convertToAbbreviated(Number(
+        //         Number(formatEther(BigInt(yourReward?.data ?? 0)))/
+        //         tokenPriceBig
+        //     ))}`,
+        //     text: "Your Reward",
+        //     data: `${convertToAbbreviated(Number(
+        //         Number(formatEther(BigInt(yourReward?.data ?? 0)))
+        //     ))}`
+        // },
 
 
     ]

@@ -36,7 +36,7 @@ import shortenString from "@/lib/shortenString";
 export default function ReferralTable() {
   const tabList = [
     { title: "Direct Referral", value: "direct" },
-    { title: "Upline Referral", value: "upline" },
+    // { title: "Upline Referral", value: "upline" },
   ];
   const [activeTab, setActiveTab] = useState("direct");
   const [selectedLevel, setSelectedLevel] = useState(1);
@@ -53,7 +53,7 @@ export default function ReferralTable() {
   return (
     <Card sx={{
       marginTop: '1.5rem',
-       
+
       border: "1px solid #557804",
       borderRadius: "16px",
       bgcolor: "transparent",
@@ -215,7 +215,7 @@ const DirectReferralTable = ({
   });
 
   return (
-    <TableContainer component={Paper} sx={{ bgcolor: "transparent", borderRadius:'12px'}}>
+    <TableContainer component={Paper} sx={{ bgcolor: "transparent", borderRadius: '12px' }}>
       <Table>
         <TableHead>
           <TableRow sx={{ background: "linear-gradient(85deg, #557804, #557804)", color: '#fff', borderBottom: "1px solid #557804" }}>
@@ -229,7 +229,7 @@ const DirectReferralTable = ({
           {getLevelResult.isLoading ? (
             [...Array(3)].map((_, index) => (
               <TableRow key={index}>
-                {[...Array(3)].map((_, i) => (
+                {[...Array(4)].map((_, i) => (
                   <TableCell sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }} key={i}>
                     <Skeleton variant="text" width={100} height={20} />
                   </TableCell>
@@ -274,14 +274,14 @@ const UplineReferralTable = () => {
 
 
   return (
-    <TableContainer component={Paper}  elevation={0} 
-    sx={{
-      boxShadow: "none",
-      backgroundColor: "transparent",
-      border: "none",
-      borderRadius
-      :'12px'
-    }}>
+    <TableContainer component={Paper} elevation={0}
+      sx={{
+        boxShadow: "none",
+        backgroundColor: "transparent",
+        border: "none",
+        borderRadius
+          : '12px'
+      }}>
       <Table>
         <TableHead>
           <TableRow sx={{ background: "linear-gradient(85deg, #557804, #557804)", color: '#fff', borderBottom: "1px solid #557804" }}>

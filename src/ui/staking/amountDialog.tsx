@@ -16,7 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { extractDetailsFromError } from "@/lib/extractDetailsFromError";
 import { toast } from "react-toastify";
 import { Address, erc20Abi, formatEther, parseEther } from "viem";
-import { iocConfig,StakeContractAddress, TokenContractAddress } from "@/app/constants/contract";
+import { iocConfig, StakeContractAddress, TokenContractAddress } from "@/app/constants/contract";
 import useCheckAllowance from "@/hooks/useCheckAllowance";
 import { useAccount, useBlockNumber, useReadContract, useWriteContract } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
@@ -48,10 +48,12 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
 
   const { address } = useAccount();
   const queryClient = useQueryClient();
-  const { data: blockNumber } = useBlockNumber({ watch: {
+  const { data: blockNumber } = useBlockNumber({
+    watch: {
       enabled: true,
       pollingInterval: 5_000,
-    } });
+    }
+  });
   const [isAproveERC20, setIsApprovedERC20] = useState(true);
   const { writeContractAsync, isPending, isSuccess, isError } = useWriteContract();
 
@@ -64,18 +66,18 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
     chainId: Number(chainId) ?? 56,
   });
 
-    const { data: tokenPriceUSDT } = useReadContract({
-        ...iocConfig,
-        functionName: "getSaleTokenPrice",
-        args: [1],
-        chainId: Number(chainId) ?? 56,
-    });
+  const { data: tokenPriceUSDT } = useReadContract({
+    ...iocConfig,
+    functionName: "getSaleTokenPrice",
+    args: [1],
+    chainId: Number(chainId) ?? 56,
+  });
 
-    const tokenPrice = tokenPriceUSDT && tokenPriceUSDT;
-    const tokenPriceBig = Number(formatEther(BigInt(tokenPrice ?? 0)));
-    const userAmount = Number(amount) * tokenPriceBig;
+  const tokenPrice = tokenPriceUSDT && tokenPriceUSDT;
+  const tokenPriceBig = Number(formatEther(BigInt(tokenPrice ?? 0)));
+  const userAmount = Number(amount) * tokenPriceBig;
 
-    
+
 
   const approveToken = async () => {
     try {
@@ -122,7 +124,7 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
   }, [resultOfCheckAllowance, address, amount]);
 
   useEffect(() => {
-    if(!blockNumber) return;
+    if (!blockNumber) return;
     queryClient.invalidateQueries({
       queryKey: resultOfCheckAllowance.queryKey,
     });
@@ -155,7 +157,7 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
 
   };
   const minStaked = parseFloat(formatEther(BigInt(selectedData?.minStaked)));
-  
+
 
   return (
     <Dialog
@@ -165,7 +167,7 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
       maxWidth="sm"
       sx={{
         "& .MuiDialog-paper": {
-          backgroundColor: "#131c48",
+          backgroundColor: "#fff",
           border: "1px solid #FDB355",
           borderRadius: "12px",
           padding: isMobile ? "1rem" : "2rem",
@@ -178,10 +180,10 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
     >
       <DialogTitle sx={{ p: 0 }}>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h5" color="#fff" px={3} py={2}>
+          <Typography variant="h5" color="#000" px={3} py={2}>
             Confirmation
           </Typography>
-          <IconButton onClick={onClose} sx={{ color: "#fff", mr: 1 }}>
+          <IconButton onClick={onClose} sx={{ color: "#000", mr: 1 }}>
             <CloseIcon />
           </IconButton>
         </Box>
@@ -190,35 +192,35 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
       <DialogContent sx={{ px: 3, pt: 0 }}>
         {selectedData && (
           <>
-            <Typography variant="h6" color="#fff" gutterBottom>
+            <Typography variant="h6" color="#000" gutterBottom>
               {selectedData.title1}
             </Typography>
-            <Typography variant="body2" color="#fff">
+            <Typography variant="body2" color="#000">
               APR:{" "}
-              <Typography component="span" color="#FDB355">
-                {(Number(selectedData.returnInPercent) / 1e2)/2}%
+              <Typography component="span" color="#557804">
+                {(Number(selectedData.returnInPercent) / 1e2) / 2}%
               </Typography>
             </Typography>
-            <Typography variant="body2" color="#fff">
+            <Typography variant="body2" color="#000">
               Daily Staking Benefit:{" "}
-              <Typography component="span" color="#FDB355">
+              <Typography component="span" color="#557804">
                 {parseFloat(selectedData.dailyRewardRateInPercent) / 1e4}%
               </Typography>
             </Typography>
-            { 
-              userAmount>0 &&
-              <Typography variant="body2" color="#fff">
-              {amount} RCC = {" "}
-              <Typography component="span" color="#FDB355">
-                ${userAmount.toFixed(4)}
+            {
+              userAmount > 0 &&
+              <Typography variant="body2" color="#000">
+                {amount} RCC = {" "}
+                <Typography component="span" color="#557804">
+                  ${userAmount.toFixed(4)}
+                </Typography>
               </Typography>
-            </Typography>
             }
           </>
         )}
 
         <Box mt={3}>
-          <Typography variant="body2" color="#fff" gutterBottom>
+          <Typography variant="body2" color="#000" gutterBottom>
             Enter Amount
           </Typography>
           <TextField
@@ -240,11 +242,11 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
               style: { backgroundColor: 'transparent', color: 'white' },
             }}
             sx={{
-              input: { color: "#fff" },
+              input: { color: "#000" },
               "& .MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: "#FDB355" },
-                "&:hover fieldset": { borderColor: "#FEE0A6" },
-                "&.Mui-focused fieldset": { borderColor: "#FDB355" },
+                "& fieldset": { borderColor: "#557804" },
+                "&:hover fieldset": { borderColor: "#557804" },
+                "&.Mui-focused fieldset": { borderColor: "#557804" },
                 '& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button': {
                   WebkitAppearance: 'none',
                   margin: 0,
@@ -276,21 +278,18 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
                 formatEther(BigInt(resultOfTokenBalance ?? 0))
               ) >= userAmount
               )
-                ? "linear-gradient(85deg, #FDB355, #FEE0A6, #7737DB)"
-                : "linear-gradient(85deg, #fdb4557a, #fee1a679, #7637db7a)",
-            color:
-              amount === ""
-                ? "#00000075 !important"
-                : "#000000 !important",
+                ? "linear-gradient(85deg, #557804, #557804, #557804)"
+                : "linear-gradient(85deg, #557804, #55780479, #5578047a)",
+            color: "#fff !important",
             fontWeight: "bold",
             borderRadius: "12px",
             textTransform: "none",
             "&:hover": {
               background:
                 amount === ""
-                  ? "linear-gradient(85deg, #fdb4557a, #fee1a679, #7637db7a)"
-                  : "linear-gradient(85deg, #FDB355, #FEE0A6, #7737DB)",
-              color: amount === "" ? "#00000075" : "#000000",
+                  ? "linear-gradient(85deg, #557804, #55780479, #5578047a)"
+                  : "linear-gradient(85deg, #557804, #55780479, #5578047a)",
+              color: amount === "" ? "#fff" : "#fff",
             },
           }}
         >
