@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Museo 300'!important;
+
+}
+
+body {
+  background-color: #fff !important;
+}
+
+.bnrbg {
+  background-image: url(../icons/recorechain/bnrbg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+}
+
+.coinbg {
+  background-image: url(../icons/recorechain/coinbg.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.dashbg {
+  background-image: url(../icons/recorechain/bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+@font-face {
+  font-family: 'Museo 300';
+  src: url('../font/Museo-300.woff2') format('woff2'),
+      url('../font/Museo-300.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Museo 700';
+  src: url('../font/Museo-700.woff2') format('woff2'),
+      url('../font/Museo-700.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+
+.slick-slide img {
+  max-width: none !important;
+}
+
+.slick-dots {
+  display: none !important;
+}
+
+.slick-arrow {
+  display: none !important;
+}
+
+.iframe_box {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media screen and (max-width: 768px) {
+.glob__video4 {
+  height: 100vh !important;
+}
+.or{
+  backdrop-filter: blur(10px);
+}
+}
