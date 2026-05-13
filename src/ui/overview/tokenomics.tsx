@@ -9,47 +9,53 @@ import Heading from "@/theme/components/heading";
 const DistributeItem = [
   {
     id: 1,
-    title: "Staking Rewards",
+    title: "Staking & Mining",
     circleColor: "linear-gradient(91deg, #557804, #55780400)",
-    percentage: "25%",
+    percentage: "30%",
     Color: "#557804",
   },
   {
     id: 2,
-    title: "Governance Voting",
-    circleColor: "linear-gradient(91deg, #6E2CCB, #6E2Cef03)",
-    percentage: "10%",
-    Color: "#6E2CCB",
+    title: "Liquidity & Exchange",
+    circleColor: "linear-gradient(91deg, #90B40D, #90b40d00)",
+    percentage: "15%%",
+    Color: "#90B40D",
   },
   {
     id: 3,
-    title: "Transaction Fees",
-    circleColor: "linear-gradient(91deg, #C156D0, #C156ef03)",
+    title: "Presale / Public",
+    circleColor: "linear-gradient(91deg, #64764D, #64764d00)",
     percentage: "15%",
-    Color: "#C156D0",
+    Color: "#64764D",
   },
   {
     id: 4,
-    title: "Energy Infrastructure Funding",
-    circleColor: "linear-gradient(91deg, #EF45A1, #EF45ef03)",
-    percentage: "30%",
-    Color: "#EF45A1",
+    title: "Ecosystem & DAO",
+    circleColor: "linear-gradient(91deg, #3EA618, #3ea61800)",
+    percentage: "15%",
+    Color: "#3EA618",
   },
   {
     id: 5,
-    title: "Platform Access",
-    circleColor: "linear-gradient(91deg, #CD3939, #CD39ef03)",
+    title: "Team & Advisors",
+    circleColor: "linear-gradient(91deg, #3EA35E, #3ea35e00)",
     percentage: "10%",
-    Color: "#CD3939",
+    Color: "#3EA35E",
   },
   {
     id: 6,
-    title: "ICO Participation",
-    circleColor: "linear-gradient(91deg, #FD9A01, #FD9Aef03)",
+    title: "Marketing",
+    circleColor: "linear-gradient(91deg, #5CB132, #5cb13200)",
     percentage: "10%",
-    Color: "#FD9A01",
+    Color: "#5CB132",
   },
-   
+  {
+    id: 7,
+    title: "Emergency Reserve",
+    circleColor: "linear-gradient(91deg, #329E54, #329e5400)",
+    percentage: "5%",
+    Color: "#329E54",
+  },
 ];
 
 const fadeUp = {
@@ -145,7 +151,7 @@ const Tokenomics = () => {
         display="flex"
         flexWrap="wrap"
         justifyContent={{ xs: "left", lg: "space-between" }}
-        gap={2}
+        gap={1}
         mt={8}
       >
         {DistributeItem.map((item, index) => (
