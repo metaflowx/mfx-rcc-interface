@@ -16,61 +16,53 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useTheme } from '@mui/material/styles';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ClaimModalConfirmation from '../referral/ClaimModalConfirmation';
-import { useAccount, useBlockNumber, useReadContract } from 'wagmi';
+import { useAccount, useBlockNumber, useReadContract, useWriteContract } from 'wagmi';
 import { useAppKitNetwork } from '@reown/appkit/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { stakeConfig } from '@/app/constants/contract';
-import { Address, formatEther } from 'viem';
+import { Address, formatEther, parseEther } from 'viem';
 import moment from "moment";
 import shortenString from '@/lib/shortenString';
 import { convertToAbbreviated } from '@/lib/convertToAbbreviated';
 import copy from "clipboard-copy";
 
-  export const apr = (tierId: number) => {
-    if (tierId === 0) {
-      return "48";/// min: $20
-    }
-    if (tierId === 1) {
-      return "56"; /// min: $500
-    }
-    if (tierId === 2) {
-      return "72"; /// min: $1000
-    }
+export const apr = (tierId: number) => {
+  if (tierId === 0) {
+    return "48";/// min: $20
   }
+  if (tierId === 1) {
+    return "56"; /// min: $500
+  }
+  if (tierId === 2) {
+    return "72"; /// min: $1000
+  }
+}
 
-  export const tier = (tierId: number) => {
-    if (tierId === 0) {
-      return "Silver";
-    }
-    if (tierId === 1) {
-      return "Gold";
-    }
-    if (tierId === 2) {
-      return "Diamond";
-    }
+export const tier = (tierId: number) => {
+  if (tierId === 0) {
+    return "24M";
   }
+  if (tierId === 1) {
+    return "36M";
+  }
+}
 
 export default function EarningTable() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isClaimChecking, setIsClaimChecking] = useState<
-    Record<string, boolean>
-  >({
-    royalty: false,
-    team: false,
-    referral: false,
-  });
 
-  const { data: blockNumber } = useBlockNumber({ watch: {
+  const { data: blockNumber } = useBlockNumber({
+    watch: {
       enabled: true,
       pollingInterval: 5_000,
-    } });
+    }
+  });
   const { address } = useAccount();
   const { chainId } = useAppKitNetwork();
   const queryClient = useQueryClient();
+
+
   const totalStakeLenth = useReadContract({
     ...stakeConfig,
     functionName: "totalStakedLengthForUser",
@@ -90,7 +82,7 @@ export default function EarningTable() {
   const data = result?.data ?? [];
 
   useEffect(() => {
-    if(!blockNumber) return;
+    if (!blockNumber) return;
     queryClient.invalidateQueries({
       queryKey: totalStakeLenth.queryKey,
     });
@@ -107,6 +99,7 @@ export default function EarningTable() {
       theme: 'dark',
     });
   };
+
 
   return (
     <Box mt={3}>
@@ -134,7 +127,7 @@ export default function EarningTable() {
                   'USER',
                   'STAKED AMOUNT',
                   'TIER',
-                  'APR',
+                  'MONTHLY RATE',
                   'REWARD',
                   'CLAIM REWARD',
                   'START TIME',
@@ -181,8 +174,11 @@ export default function EarningTable() {
                         {convertToAbbreviated(Number(formatEther(item?.volume)))} RCC
 
                       </TableCell>
-                      <TableCell sx={{ color: '#000', borderBottom: '1px solid #557804' }}>{tier?.(Number(item?.tierId??0))}</TableCell>
-                      <TableCell sx={{ color: '#000', borderBottom: '1px solid #557804' }}>{apr?.(Number(item?.tierId??0)) }%</TableCell>
+                      <TableCell sx={{ color: '#000', borderBottom: '1px solid #557804' }}>{tier?.(Number(item?.tierId ?? 0))}</TableCell>
+                      <MonthlyRewardRate
+                        tierId={Number(item?.tierId ?? 0)}
+                        amount={Number(item?.amount ?? 0)}
+                      />
                       <DailyReward index={index} address={address as Address} />
                       <TableCell sx={{ color: '#000', borderBottom: '1px solid #557804' }}>{parseFloat(formatEther(item?.claimedRewards)).toFixed(4)} RCC</TableCell>
                       <TableCell sx={{ color: '#000', borderBottom: '1px solid #557804' }}>{moment(startdate).format("lll")}</TableCell>
@@ -190,37 +186,8 @@ export default function EarningTable() {
                       <TableCell sx={{ color: '#000', borderBottom: '1px solid #557804' }}>
                         <Box sx={{ display: 'flex', gap: 1.5 }}>
 
-                          <Button
-                            variant="contained"
-                            sx={{
-                              minWidth: 80,
-                              background: "linear-gradient(85deg, #557804, #557804, #557804)",
-                              color: "#fff",
-                              textTransform: "capitalize",
-                              fontWeight: 500,
-                              borderRadius: '12px',
-                              "&:hover": {
-                                background: "linear-gradient(85deg, #557804, #557804, #557804)",
-                              },
-                            }}
-                            onClick={() => {
-                              setIsClaimChecking({
-                                ...isClaimChecking,
-                                ["referral"]: true,
-                              });
-                              setIsModalOpen(true);
-                            }}
-                          >
-                            Claim
-                          </Button>
-                          {isModalOpen && (
-                            <ClaimModalConfirmation
-                              open={isModalOpen}
-                              onClose={() => setIsModalOpen(false)}
-                              isClaimChecking={isClaimChecking}
-                              index={index}
-                            />
-                          )}
+                          <ClaimedRewardButton key={index} index={index} isUnstaked={item?.isUnstaked} />
+                          <UnstakedButton key={index} index={index} isUnstaked={item?.isUnstaked} />
                         </Box>
                       </TableCell>
                     </TableRow>
@@ -228,7 +195,7 @@ export default function EarningTable() {
                 })
               ) : (
                 <TableRow>
-                  <TableCell colSpan={9} align="center" sx={{ color: '#000',bgcolor:'#fff' }}>
+                  <TableCell colSpan={9} align="center" sx={{ color: '#000', bgcolor: '#fff' }}>
                     No Data Found
                   </TableCell>
                 </TableRow>
@@ -265,11 +232,11 @@ const DailyReward = ({
     queryClient.invalidateQueries({
       queryKey: dailyReward.queryKey,
     });
-    
-  }, [blockNumber, queryClient,dailyReward]);
+
+  }, [blockNumber, queryClient, dailyReward]);
 
   return (
-    <TableCell className="text-white whitespace-pre" sx={{ color: '#fff', borderBottom: 'none' }}>
+    <TableCell className="text-white whitespace-pre" sx={{ color: '#000', borderBottom: 'none' }}>
       {dailyReward?.data
         ? parseFloat(formatEther(dailyReward?.data)).toFixed(4)
         : "0.00"}{" "}
@@ -277,3 +244,128 @@ const DailyReward = ({
     </TableCell>
   );
 };
+
+const MonthlyRewardRate = ({
+  tierId,
+  amount,
+}: {
+  tierId: number;
+  amount: number;
+}) => {
+  const { chainId } = useAppKitNetwork();
+  const apr = useReadContract({
+    ...stakeConfig,
+    functionName: "stakingYieldRate",
+    args: [BigInt(tierId), BigInt(amount)],
+    chainId: Number(chainId) ?? 56,
+  });
+  console.log("apr", apr, amount)
+
+  return (
+    <TableCell className="text-white whitespace-pre" sx={{ color: '#000', borderBottom: 'none' }}>
+      {apr?.data
+        ? (Number(apr?.data?.[0] ?? 0) / 1e2)
+        : "0.00"}{" "}
+      %
+    </TableCell>
+  );
+};
+
+
+const ClaimedRewardButton = ({
+  index,
+  isUnstaked
+}: {
+  index: number;
+  isUnstaked: boolean;
+}) => {
+  const { mutateAsync, isPending } =
+    useWriteContract();
+
+  const handleClaim = async (index: number) => {
+    try {
+
+
+      await mutateAsync({
+        ...stakeConfig,
+        functionName: "claimReward",
+        args: [BigInt(index)],
+      });
+      toast.success("Staking Rewards Claimed 🚀");
+    } catch (error: any) {
+      toast.error(error?.shortMessage || "Claim failed");
+    }
+  };
+
+
+  return (
+    <>
+      <Button
+        variant="contained"
+        sx={{
+          minWidth: 80,
+          background: "linear-gradient(85deg, #557804, #557804, #557804)",
+          color: "#fff",
+          textTransform: "capitalize",
+          fontWeight: 500,
+          borderRadius: '12px',
+          "&:hover": {
+            background: "linear-gradient(85deg, #557804, #557804, #557804)",
+          },
+        }}
+        disabled={isPending || isUnstaked}
+        onClick={async () => await handleClaim(index)}
+      >
+        Claim
+      </Button>
+    </>
+  );
+}
+
+const UnstakedButton = ({
+  index,
+  isUnstaked
+}: {
+  index: number;
+  isUnstaked: boolean;
+}) => {
+  const { mutateAsync, isPending } =
+    useWriteContract();
+
+  const handleUnstake = async (index: number) => {
+    try {
+
+      await mutateAsync({
+        ...stakeConfig,
+        functionName: "unstake",
+        args: [BigInt(index)],
+      });
+    } catch (error: any) {
+      toast.error(error?.shortMessage || "Unstake failed");
+    }
+  };
+
+
+  return (
+    <>
+      <Button
+        variant="contained"
+        sx={{
+          minWidth: 80,
+          background: "linear-gradient(85deg, #557804, #557804, #557804)",
+          color: "#fff",
+          textTransform: "capitalize",
+          fontWeight: 500,
+          borderRadius: '12px',
+          "&:hover": {
+            background: "linear-gradient(85deg, #557804, #557804, #557804)",
+          },
+        }}
+        disabled={isPending || isUnstaked || true}
+        onClick={async () => await handleUnstake(index)}
+      >
+        Unstake
+      </Button>
+    </>
+  );
+}

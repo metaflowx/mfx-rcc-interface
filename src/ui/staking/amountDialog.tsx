@@ -15,13 +15,16 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { extractDetailsFromError } from "@/lib/extractDetailsFromError";
 import { toast } from "react-toastify";
-import { Address, erc20Abi, formatEther, parseEther } from "viem";
-import { iocConfig, StakeContractAddress, TokenContractAddress } from "@/app/constants/contract";
+import { Address, erc20Abi, formatEther, parseEther, zeroAddress } from "viem";
+import { contractConfig, iocConfig, stakeConfig, StakeContractAddress, TokenContractAddress } from "@/app/constants/contract";
 import useCheckAllowance from "@/hooks/useCheckAllowance";
 import { useAccount, useBlockNumber, useReadContract, useWriteContract } from "wagmi";
 import { useQueryClient } from "@tanstack/react-query";
 import { StakingABI } from "@/app/ABI/StakingABI";
 import { useAppKitNetwork } from "@reown/appkit/react";
+import { useSearchParams } from "next/navigation";
+import { communityAddress } from "../dashboard/progressCard";
+import { convertToAbbreviated } from "@/lib/convertToAbbreviated";
 
 interface AmountDialogProps {
   open: boolean;
@@ -45,6 +48,7 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { chainId } = useAppKitNetwork();
+  const searchparm = useSearchParams();
 
   const { address } = useAccount();
   const queryClient = useQueryClient();
@@ -54,6 +58,8 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
       pollingInterval: 5_000,
     }
   });
+  const [referrer, setReferrer] = useState(searchparm.get("ref") || "");
+
   const [isAproveERC20, setIsApprovedERC20] = useState(true);
   const { writeContractAsync, isPending, isSuccess, isError } = useWriteContract();
 
@@ -69,13 +75,27 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
   const { data: tokenPriceUSDT } = useReadContract({
     ...iocConfig,
     functionName: "getSaleTokenPrice",
-    args: [1],
+    chainId: Number(chainId) ?? 56,
+  });
+
+  const { data: resultOfReferrer } = useReadContract({
+    ...contractConfig,
+    functionName: "getReferrer",
+    args: [address as Address],
     chainId: Number(chainId) ?? 56,
   });
 
   const tokenPrice = tokenPriceUSDT && tokenPriceUSDT;
   const tokenPriceBig = Number(formatEther(BigInt(tokenPrice ?? 0)));
   const userAmount = Number(amount) * tokenPriceBig;
+
+
+  const { data: resultOfYieldRate } = useReadContract({
+    ...stakeConfig,
+    functionName: "stakingYieldRate",
+    args: [BigInt(selectedId), parseEther(`${userAmount}`)],
+    chainId: Number(chainId) ?? 56,
+  });
 
 
 
@@ -140,7 +160,13 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
           address: StakeContractAddress,
           abi: StakingABI,
           functionName: "stake",
-          args: [BigInt(selectedId), formattedAmount],
+          args: [
+            BigInt(selectedId),
+            formattedAmount,
+            resultOfReferrer !== zeroAddress
+              ? (resultOfReferrer as Address)
+              : ((referrer || communityAddress) as Address)
+          ],
         });
 
         if (res) {
@@ -196,23 +222,29 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
               {selectedData.title1}
             </Typography>
             <Typography variant="body2" color="#000">
-              APR:{" "}
+              Monthly Staking Benefit:{" "}
               <Typography component="span" color="#557804">
-                {(Number(selectedData.returnInPercent) / 1e2) / 2}%
+                {Number(resultOfYieldRate?.[0] ?? 0) / 1e2}%
               </Typography>
             </Typography>
             <Typography variant="body2" color="#000">
               Daily Staking Benefit:{" "}
               <Typography component="span" color="#557804">
-                {parseFloat(selectedData.dailyRewardRateInPercent) / 1e4}%
+                {((Number(resultOfYieldRate?.[0] ?? 0) / 1e2) / 30).toFixed(4)}%
+              </Typography>
+            </Typography>
+            <Typography variant="body2" color="#000">
+              Total Return:{" "}
+              <Typography component="span" color="#557804">
+                ${convertToAbbreviated((Number(resultOfYieldRate?.[1] ?? 0) / 1e4) * userAmount)}
               </Typography>
             </Typography>
             {
               userAmount > 0 &&
               <Typography variant="body2" color="#000">
-                {amount} RCC = {" "}
+                {convertToAbbreviated(Number(amount))} RCC = {" "}
                 <Typography component="span" color="#557804">
-                  ${userAmount.toFixed(4)}
+                  ${convertToAbbreviated(userAmount)}
                 </Typography>
               </Typography>
             }

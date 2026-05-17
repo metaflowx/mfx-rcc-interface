@@ -28,9 +28,10 @@ import { useAccount, useReadContract } from "wagmi";
 import { Address, formatEther, zeroAddress } from "viem";
 
 import { convertToAbbreviated } from "@/lib/convertToAbbreviated";
-import { contractConfig, stakeConfig } from "@/app/constants/contract";
+import { contractConfig, stakeConfig, iocConfig } from "@/app/constants/contract";
 import { toast } from "react-toastify";
 import shortenString from "@/lib/shortenString";
+
 
 
 export default function ReferralTable() {
@@ -42,13 +43,6 @@ export default function ReferralTable() {
   const [selectedLevel, setSelectedLevel] = useState(1);
   const { chainId } = useAppKitNetwork();
   const { address } = useAccount();
-
-  const getUserActiveLevel = useReadContract({
-    ...stakeConfig,
-    functionName: "getLevel",
-    args: [address as Address],
-    chainId: Number(chainId) ?? 56,
-  });
 
   return (
     <Card sx={{
@@ -175,10 +169,7 @@ export default function ReferralTable() {
 
         {/* Table Section */}
         {activeTab === "direct" ? (
-          <DirectReferralTable
-            selectedLevel={selectedLevel}
-            userActiveLevel={Number(getUserActiveLevel?.data?.toString())}
-          />
+          <DirectReferralTable />
         ) : (
           <UplineReferralTable />
         )}
@@ -187,13 +178,7 @@ export default function ReferralTable() {
   );
 }
 
-const DirectReferralTable = ({
-  selectedLevel,
-  userActiveLevel,
-}: {
-  selectedLevel: number;
-  userActiveLevel: number;
-}) => {
+const DirectReferralTable = () => {
   const { address } = useAccount();
   const { chainId } = useAppKitNetwork();
 
@@ -209,8 +194,8 @@ const DirectReferralTable = ({
 
   const getLevelResult = useReadContract({
     ...contractConfig,
-    functionName: "getDownlineReferralAtLevel",
-    args: [address as Address, BigInt(selectedLevel)],
+    functionName: "getDirectReferrals",
+    args: [address as Address, BigInt(0), BigInt(dataRef)],
     chainId: Number(chainId),
   });
 
@@ -221,13 +206,14 @@ const DirectReferralTable = ({
           <TableRow sx={{ background: "linear-gradient(85deg, #557804, #557804)", color: '#fff', borderBottom: "1px solid #557804" }}>
             <TableCell sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>S.NO</TableCell>
             <TableCell align="center" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Address</TableCell>
+            <TableCell align="right" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Purchase Amount</TableCell>
             <TableCell align="right" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Staking Amount</TableCell>
-            {selectedLevel == 1 && <TableCell align="right" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Direct Bonus</TableCell>}
+            <TableCell align="right" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Referral Bonus</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {getLevelResult.isLoading ? (
-            [...Array(3)].map((_, index) => (
+            [...Array(4)].map((_, index) => (
               <TableRow key={index}>
                 {[...Array(4)].map((_, i) => (
                   <TableCell sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }} key={i}>
@@ -243,7 +229,6 @@ const DirectReferralTable = ({
                 index={index}
                 item={item}
                 chainId={Number(chainId)}
-                selectedLevel={selectedLevel}
               />
             ))
           ) : (
@@ -264,12 +249,12 @@ const UplineReferralTable = () => {
   const { chainId } = useAppKitNetwork();
   const bonus = [5, 2.5, 1.25];
 
-  const result = useReadContract({
-    ...contractConfig,
-    functionName: "getReferralUplineTree",
-    args: [address as Address],
-    chainId: Number(chainId) ?? 56,
-  });
+  // const result = useReadContract({
+  //   ...contractConfig,
+  //   functionName: "getReferralUplineTree",
+  //   args: [address as Address],
+  //   chainId: Number(chainId) ?? 56,
+  // });
 
 
 
@@ -290,7 +275,7 @@ const UplineReferralTable = () => {
             <TableCell align="right" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>Bonus</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        {/* <TableBody>
           {result?.data &&
             result?.data.map((item: any, index: any) => (
               <TableRow key={index}>
@@ -317,7 +302,7 @@ const UplineReferralTable = () => {
                 <TableCell align="right" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>{bonus[index]}%</TableCell>
               </TableRow>
             ))}
-        </TableBody>
+        </TableBody> */}
       </Table>
     </TableContainer>
   );
@@ -327,12 +312,10 @@ const TableBodyData = ({
   index,
   item,
   chainId,
-  selectedLevel,
 }: {
   index: number;
   item: any;
   chainId: number;
-  selectedLevel: number;
 }) => {
   const stakeDetail = useReadContract({
     ...stakeConfig,
@@ -341,11 +324,18 @@ const TableBodyData = ({
     chainId,
   });
 
+  const { data: saleType2Contribution } = useReadContract({
+    ...iocConfig,
+    functionName: "user2SaleType2Contributor",
+    args: [item, 1],
+    chainId,
+  });
+
 
   return (
     <TableRow key={index}>
       <TableCell sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>{index + 1}</TableCell>
-      <TableCell align="center" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>
+      <TableCell align="center" sx={{ bgcolor: "#fff", color: '#557804', borderBottom: "1px solid #557804" }}>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 1 }}>
           {shortenString(item)}
           <IconButton sx={{ color: '#000' }} size="small" onClick={() => {
@@ -357,11 +347,16 @@ const TableBodyData = ({
         </Box>
       </TableCell>
       <TableCell align="right" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>
+        {saleType2Contribution?.volume
+          ? `${convertToAbbreviated(formatEther(saleType2Contribution.volume))} RCC`
+          : "0 RCC"}
+      </TableCell >
+      <TableCell align="right" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>
         {stakeDetail?.data
           ? `${convertToAbbreviated(formatEther(stakeDetail.data.volume))} RCC`
           : "0 RCC"}
       </TableCell >
-      {selectedLevel === 1 && <TableCell align="right" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>5%</TableCell>}
+      <TableCell align="right" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>10%</TableCell>
     </TableRow>
   );
 };

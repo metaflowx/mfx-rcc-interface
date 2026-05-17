@@ -71,9 +71,10 @@ export default function Stake() {
   const result = useReadContract({
     ...stakeConfig,
     functionName: "getTierList",
-    args: [BigInt(0), BigInt(totalTierLenth?.data || 0)],
+    args: [BigInt(0), BigInt(totalTierLenth?.data || 2)],
     chainId: Number(chainId) ?? 56,
   });
+
 
   const isLoading = result.isLoading || totalTierLenth.isLoading;
 
@@ -112,7 +113,7 @@ export default function Stake() {
               </Paper>
             </Grid>
           ))
-          : result.data && result.data.map((item, index) => (
+          : result?.data && result?.data?.map((item, index) => (
             <Grid item xs={12} md={6} lg={3} key={index}>
               <Paper
                 sx={{
@@ -147,7 +148,7 @@ export default function Stake() {
                     color={'#fff'}
                     textAlign="center"
                   >
-                    {tier?.(index)}
+                    {`${item?.lockPeriod} Months Plan`}
                   </Typography>
                 </Box>
 
@@ -162,17 +163,14 @@ export default function Stake() {
                   <Typography variant="h6" fontWeight={400} color="#000">
                     {/* {(Number(item.returnInPercent) / 1e2) / 2}% APR */}
                     {
-                      index === 0 ? '4.5%~6% Monthly' :
-                        index === 1 ? '4.5%~6% Monthly' :
-                          '5%~6.5% Monthly'
+                      index === 0 ? '2.5%~6% Monthly' :
+                        index === 1 ? '3%~6.5% Monthly' :
+                          '5%~7% Monthly'
 
                     }
                   </Typography>
-                  <Heading heading={`Min. Stake $100`} variantt={"h5"} />
-                  <Heading heading={`${index === 0 ? 12 :
-                    index === 1 ? 24 :
-                      36
-                    } Months Lockup`} variantt={"h6"} />
+                  <Heading heading={`Min. Stake $${formatEther(BigInt(item?.minStaked))}`} variantt={"h5"} />
+                  {/* <Heading heading={`Withdrawal: ${Number(item?.withdrawnPeriod) / (60 * 60 * 24)} Days`} variantt={"h6"} /> */}
                   <Button
                     fullWidth
                     variant="contained"

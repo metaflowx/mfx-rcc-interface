@@ -36,7 +36,6 @@ const Bnr = () => {
             {
                 ...iocConfig,
                 functionName: "getSaleTokenPrice",
-                args: [1],
                 chainId: Number(chainId) ?? 56,
             },
 
@@ -121,6 +120,9 @@ const Bnr = () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+
+
+    console.log("result", result)
 
     return (
         <>

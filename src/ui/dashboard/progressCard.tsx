@@ -35,7 +35,7 @@ import CoinSelector from './coinSelector';
 import copy from 'clipboard-copy'
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-const communityAddress = "0x8Ed17Fd552D73123466B57Ee32e00e3221e0A92D";
+export const communityAddress = "0xDDDF0d9C3E3e218bbeB23521bc0643F01C97781E";
 
 
 const paymentOptions = [
@@ -89,7 +89,6 @@ const ProgressCard: React.FC = () => {
             {
                 ...iocConfig,
                 functionName: "getSaleTokenPrice",
-                args: [1],
                 chainId: Number(chainId) ?? 56,
             },
 
@@ -170,12 +169,11 @@ const ProgressCard: React.FC = () => {
                 functionName: "buy",
                 args: [
                     1,
-                    BigInt(value1),
                     tokenAddress as Address,
                     formattedAmount,
                     result?.data?.[5]?.result !== zeroAddress
                         ? (result?.data?.[5]?.result as Address)
-                        : ((referrer || zeroAddress) as Address),
+                        : ((referrer || communityAddress) as Address),
                 ],
                 value:
                     selectedToken?.tokenname === "BNB" ? parseEther(amount) : BigInt(0),
@@ -237,10 +235,11 @@ const ProgressCard: React.FC = () => {
         chainId: Number(chainId) ?? 56,
     });
     const [minBuy, setMinBuy] = useState(
-        result?.data?.[4]?.result?.minBuy
-            ? Number(formatEther(BigInt(result.data[4].result.minBuy)))
+        Number(result?.data?.[4]?.result?.minBuy) > 0
+            ? Number(formatEther(BigInt(result?.data?.[4]?.result?.minBuy || "0")))
             : 0
     )
+
 
     const tokenAddress =
         selectedToken.tokenname === "BNB" ? zeroAddress : selectedToken.address;
@@ -401,7 +400,7 @@ const ProgressCard: React.FC = () => {
                     </Box>
                 </Box>
                 <Typography color={'#000'}>
-                    Listing price <strong>$1.35</strong>
+                    Listing price <strong>$0.151</strong>
                 </Typography>
             </Box>
 
@@ -701,7 +700,7 @@ const ProgressCard: React.FC = () => {
 
             </Box>
             {
-                result?.data?.[5]?.result === zeroAddress && (
+                result?.data?.[5]?.result === zeroAddress && referrer && (
                     <Box sx={{ mb: 3 }}>
                         <>
                             <Box>

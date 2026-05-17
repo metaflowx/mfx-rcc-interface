@@ -11,15 +11,26 @@ const Earning = () => {
     const { chainId } = useAppKitNetwork();
     const { address } = useAccount();
 
+    const { data: resultOfTokenBalance } = useReadContract({
+        abi: erc20Abi,
+        address: chainId === 56 ? "0xC514Fc301BCEC34352AE759f14A237FDb1F809CB" : TokenContractAddress,
+        functionName: "balanceOf",
+        args: [address as Address],
+        account: address,
+    });
+
     const { data: tokenPriceUSDT } = useReadContract({
         ...iocConfig,
         functionName: "getSaleTokenPrice",
-        args: [1],
         chainId: Number(chainId) ?? 56,
     });
 
     const tokenPrice = tokenPriceUSDT && tokenPriceUSDT;
     const tokenPriceBig = Number(formatEther(BigInt(tokenPrice ?? 0)));
+
+    const rccUSDTAmount =
+        Number(formatEther(BigInt(resultOfTokenBalance ?? 0))) * tokenPriceBig;
+
     const dailyReward = useReadContract({
         ...stakeConfig,
         functionName: "user2Staker",
@@ -27,32 +38,16 @@ const Earning = () => {
         chainId: Number(chainId) ?? 56,
     })
 
-    const teamBusiness = useReadContract({
-        ...stakeConfig,
-        functionName: "calculateTeamBusiness",
-        args: [address as Address],
-        chainId: Number(chainId) ?? 56,
-    });
-
-    const yourReward = useReadContract({
-        ...stakeConfig,
-        functionName: "getReward",
-        args: [address as Address],
-        chainId: Number(chainId) ?? 56,
-    });
 
 
     const customCardData = [
         {
             id: 101,
             title: `${convertToAbbreviated(Number(
-                Number(formatEther(BigInt(teamBusiness?.data ?? 0))) /
-                tokenPriceBig
+                formatEther(BigInt(resultOfTokenBalance ?? 0))
             ))}`,
             text: "Your Wallet Balance",
-            data: `${convertToAbbreviated(Number(
-                Number(formatEther(BigInt(teamBusiness?.data ?? 0)))
-            ))}`
+            data: `${convertToAbbreviated(Number(rccUSDTAmount))}`
         },
         {
             id: 102,

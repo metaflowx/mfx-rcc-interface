@@ -23,7 +23,6 @@ import { useAccount, useBlockNumber, useReadContracts } from "wagmi";
 
 import { contractConfig } from "@/app/constants/contract";
 import { convertToAbbreviated } from "@/lib/convertToAbbreviated";
-import ClaimModalConfirmation from "./ClaimModalConfirmation";
 import REFERRALS from '../../../src/icons/recorechain/ref.svg'
 import EARNINGS from '../../../src/icons/recorechain/earn.svg'
 import CLAIMED from '../../../src/icons/recorechain/claim.svg'
@@ -45,7 +44,7 @@ export default function ReferralDashboard() {
     contracts: [
       {
         ...contractConfig,
-        functionName: "getTotalReferralRewards",
+        functionName: "getReferralRewards",
         args: [address as Address],
         chainId: Number(chainId) ?? 56,
       },
@@ -74,7 +73,7 @@ export default function ReferralDashboard() {
       title: "YOUR REFERRAL EARNINGS",
       value: `${result?.data?.[0]?.result
         ? convertToAbbreviated(
-          Number(formatEther(BigInt(result?.data[0]?.result?.[0])))
+          Number(formatEther(BigInt(result?.data[0]?.result)))
         )
         : 0
         } RCC`,

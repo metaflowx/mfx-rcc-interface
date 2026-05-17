@@ -18,7 +18,7 @@ const Dsboard = () => {
     const { address } = useAccount();
     const { data: resultOfTokenBalance } = useReadContract({
         abi: erc20Abi,
-        address: chainId === 97 ? "0xC514Fc301BCEC34352AE759f14A237FDb1F809CB" : TokenContractAddress,
+        address: chainId === 56 ? "0xC514Fc301BCEC34352AE759f14A237FDb1F809CB" : TokenContractAddress,
         functionName: "balanceOf",
         args: [address as Address],
         account: address,
@@ -27,7 +27,6 @@ const Dsboard = () => {
     const { data: tokenPriceUSDT } = useReadContract({
         ...iocConfig,
         functionName: "getSaleTokenPrice",
-        args: [1],
         chainId: Number(chainId) ?? 56,
     });
 

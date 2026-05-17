@@ -90,7 +90,7 @@ export default function PurchaseHistory() {
   return (
     <Box mt={3}>
       <Box display="flex" justifyContent="space-between" mb={2}>
-        <Heading  heading="Contributors History" variantt="h5" />
+        <Heading heading="Purchase History" variantt="h5" />
       </Box>
 
       <Box

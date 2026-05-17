@@ -65,7 +65,7 @@ export default function Profile({ type }: { type?: string }) {
 
       {
         ...contractConfig,
-        functionName: "getTotalReferralRewards",
+        functionName: "getReferralRewards",
         args: [address as Address],
         chainId: Number(chainId) ?? 56
       },
@@ -119,7 +119,7 @@ export default function Profile({ type }: { type?: string }) {
       title: "YOUR REFERRAL EARNINGS",
       value: `${result?.data?.[0]?.result
         ? convertToAbbreviated(
-          Number(formatEther(BigInt(result?.data[0]?.result?.[0])))
+          Number(formatEther(BigInt(result?.data[0]?.result)))
         )
         : 0
         } RCC`,
