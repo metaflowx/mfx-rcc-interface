@@ -28,7 +28,7 @@ const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
   networks: [bsc, bscTestnet],
-  defaultNetwork: bscTestnet,
+  defaultNetwork: bsc,
   metadata: metadata,
   themeMode: 'light',
   features: {

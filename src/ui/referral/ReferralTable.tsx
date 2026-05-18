@@ -207,8 +207,9 @@ const DirectReferralTable = () => {
             <TableCell sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>S.NO</TableCell>
             <TableCell align="center" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Address</TableCell>
             <TableCell align="right" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Purchase Amount</TableCell>
+            <TableCell align="right" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Purchase Bonus</TableCell>
             <TableCell align="right" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Staking Amount</TableCell>
-            <TableCell align="right" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Referral Bonus</TableCell>
+            <TableCell align="right" sx={{ color: '#fff', borderBottom: "1px solid #557804" }}>Staking Bonus</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -351,12 +352,13 @@ const TableBodyData = ({
           ? `${convertToAbbreviated(formatEther(saleType2Contribution.volume))} RCC`
           : "0 RCC"}
       </TableCell >
+      <TableCell align="right" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>2%</TableCell>
       <TableCell align="right" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>
         {stakeDetail?.data
           ? `${convertToAbbreviated(formatEther(stakeDetail.data.volume))} RCC`
           : "0 RCC"}
       </TableCell >
-      <TableCell align="right" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>10%</TableCell>
+      <TableCell align="right" sx={{ bgcolor: "#fff", color: '#000', borderBottom: "1px solid #557804" }}>8%</TableCell>
     </TableRow>
   );
 };

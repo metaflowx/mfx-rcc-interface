@@ -61,7 +61,7 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
   const [referrer, setReferrer] = useState(searchparm.get("ref") || "");
 
   const [isAproveERC20, setIsApprovedERC20] = useState(true);
-  const { writeContractAsync, isPending, isSuccess, isError } = useWriteContract();
+  const { mutateAsync, isPending, isSuccess, isError } = useWriteContract();
 
   const { data: resultOfTokenBalance } = useReadContract({
     abi: erc20Abi,
@@ -107,7 +107,7 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
           : parseEther?.(
             BigInt((Number.MAX_SAFE_INTEGER ** 1.3)?.toString())?.toString()
           );
-      const res = await writeContractAsync({
+      const res = await mutateAsync({
         abi: erc20Abi,
         address: TokenContractAddress,
         functionName: "approve",
@@ -116,7 +116,6 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
       });
       if (res) {
         setIsApprovedERC20(true);
-        setAmount("")
         toast.success("Token approved successfully");
       }
     } catch (error: any) {
@@ -156,7 +155,7 @@ const AmountDialog: React.FC<AmountDialogProps> = ({
       try {
         const formattedAmount = parseEther(amount);
 
-        const res = await writeContractAsync({
+        const res = await mutateAsync({
           address: StakeContractAddress,
           abi: StakingABI,
           functionName: "stake",

@@ -4,11 +4,11 @@ import { StakingABI } from "../ABI/StakingABI";
 import { TokenABI } from "../ABI/TokenSupply";
 
 
-export const TokenContractAddress = "0xDA4F5fBe9664786f9b33DE4BE0a201873a5575C6";
-export const ICOContractAddress = "0x86CcC377EbdD39D945be2a58839DDEA807c2A816"
-export const ReferralContractAddress = "0x080Fc12d7DB40432abFC69166fdB856EEEc966bB";
+export const TokenContractAddress = "0x1d32FD85A7592eFFCc1ceE43fBbE33088B89B5D8";
+export const ICOContractAddress = "0xF5A24757ed0795049Facd40b078Fa3b8306fc5E5"
+export const ReferralContractAddress = "0x38c4d73bfb927e67EaD3D113Ff64B41d036BcB1f";
 export const USDTAddress = "0x55d398326f99059fF775485246999027B3197955"
-export const StakeContractAddress = "0x5e09fD9A0a8328bA02113923f557898D18384376";
+export const StakeContractAddress = "0xCAd6D3269e4809637309d9bB9D5c8aAfB4A0cff1";
 
 
 export const contractConfig = {

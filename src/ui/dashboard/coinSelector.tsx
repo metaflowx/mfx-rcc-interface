@@ -119,8 +119,8 @@ const TokenData = ({
                     selected
                         ? 'linear-gradient(85deg, #fff, #fff, #fff)'
                         : '#fff',
-                        
-                        border:
+
+                border:
                     selected
                         ? '1px solid #557804'
                         : '1px solid #55780459',
