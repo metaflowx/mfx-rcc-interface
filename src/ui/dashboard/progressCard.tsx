@@ -396,7 +396,7 @@ const ProgressCard: React.FC = () => {
                     <Box sx={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
                         <Typography color={'#000'}>$ {calciulatedToken?.tokenPriceData == 0
                             ? 0.1
-                            : calciulatedToken?.tokenPriceData}</Typography>
+                            : calciulatedToken?.tokenPriceData.toFixed(4)}</Typography>
                     </Box>
                 </Box>
                 <Typography color={'#000'}>

@@ -51,8 +51,8 @@ export default function ReferralCard({ type }: { type?: string }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setUrl(`${window.location.host}/dashboard?ref=${shortenString(address || "")}`);
-      setUrl1(`${window.location.host}/dashboard?ref=${address}`);
+      setUrl(`${window.location.host}/dashboard/staking?ref=${shortenString(address || "")}`);
+      setUrl1(`${window.location.host}/dashboard/staking?ref=${address}`);
 
     }
   }, [address]);

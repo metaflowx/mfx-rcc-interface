@@ -252,7 +252,7 @@ const Bnr = () => {
                                         }}>
                                             TOTAL USD RAISED: $ {convertToAbbreviated(Number(calculatedToken?.totalSale ?? 0) + 10000) ?? 0}
                                         </Typography>
-                                        <Typography mt={1.2} fontWeight={'bold'} color={'#000'}>1 RCC = $ {result.data?.[0]?.result ? formatEther(BigInt((result.data?.[0]?.result))) : '0.0139'}</Typography>
+                                        <Typography mt={1.2} fontWeight={'bold'} color={'#000'}>1 RCC = $ {result.data?.[0]?.result ? Number(formatEther(BigInt((result.data?.[0]?.result)))).toFixed(4) : '0.0139'}</Typography>
                                         <Link href={"/dashboard"}>
                                             <Button sx={{
                                                 background: "#557804",
