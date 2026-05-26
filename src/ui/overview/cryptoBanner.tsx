@@ -292,7 +292,7 @@ const CryptoBanner = () => {
                             </Button>
                         </Link>
 
-                        <Link href={"/dashboard/staking"}>
+                        <Link href={"/Recore Whitepaper.pdf"}>
                                         <Button sx={{
                                             backgroundColor: 'transparent',
                                             border: '1px solid #557804',
