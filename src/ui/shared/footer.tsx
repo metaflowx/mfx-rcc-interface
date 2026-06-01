@@ -343,8 +343,8 @@ const Footer = () => {
                                                 backgroundColor: '#E5EBD9',
                                                 border: "1px solid #557804",
                                                 borderRadius: '50%',
-                                                width: '48px',
-                                                height: '48px',
+                                                width: '40px',
+                                                height: '40px',
                                             }}
                                             href={item.href}
                                         >
@@ -368,19 +368,27 @@ const Footer = () => {
 
                 </Grid>
 
-
-                <Grid container spacing={2}>
+               <Box>
+               <Typography
+               sx={{
+                '@media(max-width : 900px)':{
+                    textAlign:'center'
+                }
+               }}
+                               
+                               variant='h5'
+                               color={'#000'}
+                               mt={5}
+                           >
+                               Global Presense
+                           </Typography>
+                <Grid container spacing={2} mt={-5}>
 
                     <Grid item xs={12}>
+                        
                         <Box className={classes.box__listAlign}>
 
-                            <Typography
-                                className={classes.heading__align}
-                                variant='h5'
-                                color={'#000'}
-                            >
-                                Global Presense
-                            </Typography>
+                            
 
                             {/* INNER GRID */}
                             <Grid
@@ -399,6 +407,8 @@ const Footer = () => {
                                         </Typography>
 
                                         <Typography className={classes.addressText}>
+                                            RECORE COIN LTD
+                                            <br />
                                             39 William Street
                                             <br />
                                             London, England
@@ -422,6 +432,8 @@ const Footer = () => {
                                         </Typography>
 
                                         <Typography className={classes.addressText}>
+                                            RECORE COINS LLC
+                                            <br />
                                             Shams Business Center
                                             <br />
                                             Sharjah Media City Free Zone
@@ -445,7 +457,7 @@ const Footer = () => {
                                         </Typography>
 
                                         <Typography className={classes.addressText}>
-                                            Recore Coin LLC
+                                            RECORE COINS LLC
                                             <br />
                                             4520 W Pine Blvd Apt 5
                                             <br />
@@ -464,6 +476,7 @@ const Footer = () => {
                     </Grid>
 
                 </Grid>
+               </Box>
 
 
                 {/* BOTTOM */}
