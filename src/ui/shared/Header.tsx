@@ -15,6 +15,7 @@ import Sidebar from "./sidebar";
 import { makeStyles } from '@mui/styles';
 import ConnectWallet from "./connectWallet";
 import { useAccount, useConnect } from "wagmi";
+import BitcoinNews from "../overview/bitcoinNews";
 
 
 
@@ -135,6 +136,7 @@ export default function Header() {
 
     return (
         <Box >
+             
             <MainBox>
                 <StyledBox>
                     <Box>

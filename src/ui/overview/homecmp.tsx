@@ -13,6 +13,7 @@ import Footer from "../shared/footer";
 import Roadmap from "./roadmap";
 import Howitworks from "./howitworks";
 import Features from "./features";
+import BitcoinNews from "./bitcoinNews";
 
 
 
@@ -45,6 +46,7 @@ const Homecmp = () => {
                     <Box sx={{ paddingTop: '2rem' }}> <Header /></Box>
                    <Box component={'section'} id="home"> <Bnr /></Box>
                 </Box>
+                <BitcoinNews/>
                 <Box
                     sx={{
                         padding: {
