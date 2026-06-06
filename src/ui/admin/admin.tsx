@@ -33,6 +33,7 @@ const Admin = () => {
     const { data: totalICOUsers } = useReadContract({
         ...iocConfig,
         functionName: "totalContributor",
+        args: [1],
         chainId: Number(chainId) ?? 56,
     });
 
@@ -149,7 +150,7 @@ const Admin = () => {
         {
             id: 106,
             title: `${convertToAbbreviated(Number(
-                Number(((totalICOUsers ?? 0)))
+                ((totalICOUsers ?? 0))
             ), 0)}`,
             text: "Total ICO Users",
             data: `0`,
