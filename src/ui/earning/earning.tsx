@@ -13,7 +13,7 @@ const Earning = () => {
 
     const { data: resultOfTokenBalance } = useReadContract({
         abi: erc20Abi,
-        address: chainId === 56 ? "0xC514Fc301BCEC34352AE759f14A237FDb1F809CB" : TokenContractAddress,
+        address: chainId === 97 ? "0xC514Fc301BCEC34352AE759f14A237FDb1F809CB" : TokenContractAddress,
         functionName: "balanceOf",
         args: [address as Address],
         account: address,
