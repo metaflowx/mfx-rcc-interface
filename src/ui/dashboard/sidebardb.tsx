@@ -1,8 +1,8 @@
 'use client';
-
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { Box, Typography } from '@mui/material';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 // Logo and Icons
@@ -18,7 +18,10 @@ import ed from '../../icons/recorechain/ed.svg';
 import sd from '../../icons/recorechain/sd.svg';
 import rd from '../../icons/recorechain/rd.svg';
 import pd from '../../icons/recorechain/pd.svg';
- 
+import { useConnection } from 'wagmi';
+import React from 'react';
+
+
 
 // Navigation Links
 const navLinks = [
@@ -52,10 +55,40 @@ const navLinks = [
     iconLight: pl,
     iconDark: pd,
   },
+  {
+    name: 'Admin',
+    href: '/dashboard/admin',
+    iconLight: dl,
+    iconDark: dd,
+  },
+];
+
+const ADMIN_ADDRESSES = [
+  "0x34f803AAfc0083eC4cd146c8ff0552427C9A08E9",
+  "0x2c69007Bee7A7C10669cdC0285F1479530d249b1",
 ];
 
 const SidebarDB = () => {
   const pathname = usePathname();
+  const { address } = useConnection();
+  const router = useRouter();
+
+
+  const isAdmin = ADMIN_ADDRESSES.some(
+    (addr) => addr.toLowerCase() === address?.toLowerCase()
+  );
+
+
+
+  useEffect(() => {
+    if (address && !isAdmin) {
+      router.replace("/dashboard");
+    }
+  }, [address, isAdmin, router]);
+
+  const filteredNavLinks = navLinks.filter(
+    (item) => item.href !== "/dashboard/admin" || isAdmin
+  );
 
   return (
     <Box sx={{ p: 2 }}>
@@ -70,12 +103,12 @@ const SidebarDB = () => {
 
       {/* Navigation */}
       <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0 }}>
-        {navLinks.map((item, index) => {
+        {filteredNavLinks.map((item, index) => {
           const isActive = pathname === item.href;
 
           return (
             <Box key={index} component="li" sx={{ mb: 2 }}>
-              <Link style={{ textDecoration:"none"}} href={item.href} passHref>
+              <Link style={{ textDecoration: "none" }} href={item.href} passHref>
                 <Box
                   component="a"
                   sx={{

@@ -7,6 +7,8 @@ import Image from "next/image";
 import { keyframes } from "@emotion/react";
 import recorecoin from "../../icons/recorechain/recorecoin.svg";
 import Link from "next/link";
+import bnbIcon from '../../icons/recorechain/bnb.svg';
+import rccIcon from '../../icons/recorechain/recorecointoken.svg';
 
 // Floating Coin
 const floating = keyframes`
@@ -141,8 +143,8 @@ const CryptoBanner = () => {
                             letterSpacing: "4px",
                             textTransform: "uppercase",
                             mb: 2,
-                            '@media(max-width : 900px)':{
-                                textAlign:'center'
+                            '@media(max-width : 900px)': {
+                                textAlign: 'center'
                             }
                         }}
                     >
@@ -152,19 +154,19 @@ const CryptoBanner = () => {
                     <Typography
                         data-aos="fade-up"
                         sx={{
-                             
+
                             fontSize: '40px',
                             color: '#000',
                             textAlign: 'left',
                             fontWeight: 'bold',
                             fontFamily: 'Museo 700 !important',
-                            '@media(max-width : 900px)':{
-                                textAlign:'center',
+                            '@media(max-width : 900px)': {
+                                textAlign: 'center',
                                 '@media(max-width : 600px)': {
                                     fontSize: '24px'
                                 }
                             }
-                            
+
                         }}
                     >
                         ReCore Chain
@@ -176,11 +178,11 @@ const CryptoBanner = () => {
                             mt: 2,
                             color: "#475569",
                             fontSize: { xs: "15px", md: "18px" },
-                             
+
                             maxWidth: "620px",
-                            '@media(max-width : 900px)':{
-                                textAlign:'center',
-                                
+                            '@media(max-width : 900px)': {
+                                textAlign: 'center',
+
                             }
                         }}
                     >
@@ -196,10 +198,10 @@ const CryptoBanner = () => {
                             gap: 3,
                             mt: 5,
                             flexWrap: "wrap",
-                            '@media(max-width : 900px)':{
-                             justifyContent:'center',
-                             textAlign:'center'
-                                 
+                            '@media(max-width : 900px)': {
+                                justifyContent: 'center',
+                                textAlign: 'center'
+
                             }
                         }}
                     >
@@ -227,7 +229,7 @@ const CryptoBanner = () => {
                                     backdropFilter: "blur(10px)",
                                     border: "1px solid rgba(15,23,42,0.08)",
                                     boxShadow: "0 10px 40px rgba(15,23,42,0.06)",
-                                    '@media(max-width : 900px)':{
+                                    '@media(max-width : 900px)': {
                                         minWidth: "300px",
                                     }
                                 }}
@@ -266,9 +268,9 @@ const CryptoBanner = () => {
                             gap: 2,
                             mt: 5,
                             flexWrap: "wrap",
-                            '@media(max-width : 900px)':{
-                               justifyContent:'center'
-                                 
+                            '@media(max-width : 900px)': {
+                                justifyContent: 'center'
+
                             }
                         }}
                     >
@@ -276,16 +278,15 @@ const CryptoBanner = () => {
 
                         <Link href={"/dashboard"}>
                             <Button sx={{
-                                backgroundColor: '#557804',
-                                border: '1px solid transparent',
-                                color: '#fff',
+                                backgroundColor: 'transparent',
+                                border: '1px solid #557804',
+                                color: '#557804',
                                 borderRadius: '5rem',
                                 padding: '0.5rem 1.5rem',
                                 textTransform: 'capitalize',
                                 '&:hover': {
-                                    backgroundColor: 'transparent',
-                                    border: '1px solid #557804',
-                                    color: '#557804'
+                                    backgroundColor: '#557804',
+                                    color: '#fff'
                                 }
                             }}>
                                 Explore Ecosystem
@@ -293,21 +294,65 @@ const CryptoBanner = () => {
                         </Link>
 
                         <Link href={"/Recore Whitepaper.pdf"}>
-                                        <Button sx={{
-                                            backgroundColor: 'transparent',
-                                            border: '1px solid #557804',
-                                            color: '#557804',
-                                            borderRadius: '5rem',
-                                            padding: '0.5rem 1.5rem',
-                                            textTransform: 'capitalize',
-                                            '&:hover': {
-                                                backgroundColor: '#557804',
-                                                color: '#fff'
-                                            }
-                                        }}>
-                                            Whitepaper
-                                        </Button>
-                                    </Link>
+                            <Button sx={{
+                                backgroundColor: 'transparent',
+                                border: '1px solid #557804',
+                                color: '#557804',
+                                borderRadius: '5rem',
+                                padding: '0.5rem 1.5rem',
+                                textTransform: 'capitalize',
+                                '&:hover': {
+                                    backgroundColor: '#557804',
+                                    color: '#fff'
+                                }
+                            }}>
+                                Whitepaper
+                            </Button>
+                        </Link>
+                        <a
+                            href="https://pancakeswap.finance/swap?outputCurrency=BNB&inputCurrency=0x1d32FD85A7592eFFCc1ceE43fBbE33088B89B5D8"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Button
+                                startIcon={
+                                    <Box sx={{ display: "flex", alignItems: "center", mr: 0.5 }}>
+                                        <Image
+                                            src={rccIcon}
+                                            alt="RCC"
+                                            width={25}
+                                            height={25}
+                                            style={{ borderRadius: "50%", zIndex: 2 }}
+                                        />
+                                        <Image
+                                            src={bnbIcon}
+                                            alt="WBNB"
+                                            width={22}
+                                            height={22}
+                                            style={{
+                                                borderRadius: "50%",
+                                                marginLeft: "-8px",
+                                            }}
+                                        />
+                                    </Box>
+                                }
+                                sx={{
+                                    backgroundColor: "#557804",
+                                    border: "1px solid transparent",
+                                    color: "#fff",
+                                    borderRadius: "5rem",
+                                    padding: "0.5rem 1.5rem",
+                                    textTransform: "capitalize",
+                                    "&:hover": {
+                                        backgroundColor: "transparent",
+                                        border: "1px solid #557804",
+                                        color: "#557804",
+                                    },
+                                }}
+                            >
+                                RCC/WBNB (PancakeSwap)
+                            </Button>
+                        </a>
                     </Box>
                 </Box>
 
