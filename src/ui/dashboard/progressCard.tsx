@@ -35,7 +35,7 @@ import CoinSelector from './coinSelector';
 import copy from 'clipboard-copy'
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-export const communityAddress = "0x2c69007Bee7A7C10669cdC0285F1479530d249b1";
+export const communityAddress = "0x34f803AAfc0083eC4cd146c8ff0552427C9A08E9";
 
 
 const paymentOptions = [
