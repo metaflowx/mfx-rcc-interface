@@ -1,20 +1,20 @@
 'use client'
 import dynamic from "next/dynamic"
 
-const Earningcmp = dynamic(
+const Admincmp = dynamic(
   () => import("@/ui/admin/admincmp"),
   {
     ssr: false,
   }
 )
- 
 
-const Earning = () => {
-    return (
-        <>
-             <Earningcmp/>
-        </>
-    )
+
+const Admin = () => {
+  return (
+    <>
+      <Admincmp />
+    </>
+  )
 }
 
-export default Earning
+export default Admin

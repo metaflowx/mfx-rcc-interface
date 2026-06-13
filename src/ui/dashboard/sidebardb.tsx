@@ -81,10 +81,10 @@ const SidebarDB = () => {
 
 
   useEffect(() => {
-    if (address && !isAdmin) {
+    if (pathname.startsWith("/dashboard/admin") && !isAdmin) {
       router.replace("/dashboard");
     }
-  }, [address, isAdmin, router]);
+  }, [pathname, isAdmin, router]);
 
   const filteredNavLinks = navLinks.filter(
     (item) => item.href !== "/dashboard/admin" || isAdmin
